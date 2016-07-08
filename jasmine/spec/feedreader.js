@@ -42,20 +42,16 @@ $(function() {
     });
 
     describe('The Menu', function() {
+        var $body = $('body');
+        var $menu = $body.find('.slide-menu');
+        var $button = $body.find('.menu-icon-link');
 
         it('is hidden by default', function(){
-            var $body = $('body');
-            var $menu = $body.find('.slide-menu');
-
             expect($body.attr('class')).toMatch('menu-hidden');
             expect($menu.css('transform')).not.toEqual('matrix(1, 0, 0, 1, 0, 0)');
         });
 
         it('is show and hide when clicked in button', function(done){
-            var $body = $('body');
-            var $menu = $body.find('.slide-menu');
-            var $button = $body.find('.menu-icon-link');
-
             $button.click();
 
             setTimeout(function(){
