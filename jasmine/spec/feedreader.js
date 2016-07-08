@@ -42,17 +42,35 @@ $(function() {
     });
 
     describe('The Menu', function() {
-        /* TODO: Write a test that ensures the menu element is
-         * hidden by default. You'll have to analyze the HTML and
-         * the CSS to determine how we're performing the
-         * hiding/showing of the menu element.
-         */
 
-         /* TODO: Write a test that ensures the menu changes
-          * visibility when the menu icon is clicked. This test
-          * should have two expectations: does the menu display when
-          * clicked and does it hide when clicked again.
-          */
+        it('is hidden by default', function(){
+            var $body = $('body');
+            var $menu = $body.find('.slide-menu');
+
+            expect($body.attr('class')).toMatch('menu-hidden');
+            expect($menu.css('transform')).not.toEqual('matrix(1, 0, 0, 1, 0, 0)');
+        });
+
+        it('is show and hide when clicked in button', function(done){
+            var $body = $('body');
+            var $menu = $body.find('.slide-menu');
+            var $button = $body.find('.menu-icon-link');
+
+            $button.click();
+
+            setTimeout(function(){
+                expect($body.attr('class')).not.toMatch('menu-hidden');
+                expect($menu.css('transform')).toEqual('matrix(1, 0, 0, 1, 0, 0)');
+
+                $button.click();
+                setTimeout(function(){
+                    expect($body.attr('class')).toMatch('menu-hidden');
+                    expect($menu.css('transform')).not.toEqual('matrix(1, 0, 0, 1, 0, 0)');
+                    done();
+                }, 205);
+            }, 205);
+
+        });
     });
 
     describe('Initial Entries', function() {
