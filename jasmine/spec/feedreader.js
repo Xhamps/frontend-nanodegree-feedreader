@@ -74,13 +74,15 @@ $(function() {
     });
 
     describe('Initial Entries', function() {
+         it('there is at least a single entry', function(done){
+            loadFeed(0, function(){
+                var $container = $('.feed');
 
-        /* TODO: Write a test that ensures when the loadFeed
-         * function is called and completes its work, there is at least
-         * a single .entry element within the .feed container.
-         * Remember, loadFeed() is asynchronous so this test will require
-         * the use of Jasmine's beforeEach and asynchronous done() function.
-         */
+                expect($container.children().length).toBeGreaterThan(0);
+
+                done();
+            });
+         });
     });
 
     describe('New Feed Selection', function() {
