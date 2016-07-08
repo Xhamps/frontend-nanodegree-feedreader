@@ -1,8 +1,11 @@
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 /* feedreader.js
  *
  * This is the spec file that Jasmine will read and contains
  * all of the tests that will be run against your application.
  */
+
+ var urlRegex = /^(https?|ftp)\:\/\/[^\s/$.?#].[^\s]*$/i;
 
 /* We're placing all of our tests within the $() function,
  * since some of these tests may require DOM elements. We want
@@ -28,15 +31,14 @@ $(function() {
 
         it('has a URL defined', function(){
             allFeeds.forEach(function(feed){
-                expect(feed.url).toBeDefined();
-                expect(feed.url).not.toEqual('');
+                expect(feed.url).toBeTruthy();
+                expect(feed.url).toMatch(urlRegex);
             });
          });
 
          it('has a name defined', function(){
             allFeeds.forEach(function(feed){
-                expect(feed.name).toBeDefined();
-                expect(feed.name).not.toEqual('');
+                expect(feed.name).toBeTruthy();
             });
          });
     });
@@ -47,7 +49,7 @@ $(function() {
         var $button = $body.find('.menu-icon-link');
 
         it('is hidden by default', function(){
-            expect($body.attr('class')).toMatch('menu-hidden');
+            expect($body.hasClass('menu-hidden')).toBeTruthy();
             expect($menu.css('transform')).not.toEqual('matrix(1, 0, 0, 1, 0, 0)');
         });
 
@@ -71,11 +73,10 @@ $(function() {
     });
 
     describe('Initial Entries', function() {
-        var $container = $('.feed');
 
         it('there is at least a single entry', function(done){
             loadFeed(0, function(){
-                expect($container.children().length).toBeGreaterThan(0);
+                expect($('.feed .entry').length).toBeGreaterThan(0);
                 done();
             });
         });
@@ -86,9 +87,7 @@ $(function() {
         var $container = $('.feed');
 
         beforeEach(function(done){
-            loadFeed(0, function(){
-                done();
-            });
+            loadFeed(0, done);
         });
 
         it('is change the title', function(done){
