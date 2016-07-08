@@ -59,6 +59,7 @@ $(function() {
                 expect($menu.css('transform')).toEqual('matrix(1, 0, 0, 1, 0, 0)');
 
                 $button.click();
+
                 setTimeout(function(){
                     expect($body.attr('class')).toMatch('menu-hidden');
                     expect($menu.css('transform')).not.toEqual('matrix(1, 0, 0, 1, 0, 0)');
@@ -70,22 +71,41 @@ $(function() {
     });
 
     describe('Initial Entries', function() {
-         it('there is at least a single entry', function(done){
+        var $container = $('.feed');
+
+        it('there is at least a single entry', function(done){
             loadFeed(0, function(){
-                var $container = $('.feed');
-
                 expect($container.children().length).toBeGreaterThan(0);
-
                 done();
             });
-         });
+        });
     });
 
     describe('New Feed Selection', function() {
+        var $title = $('.header-title');
+        var $container = $('.feed');
 
-        /* TODO: Write a test that ensures when a new feed is loaded
-         * by the loadFeed function that the content actually changes.
-         * Remember, loadFeed() is asynchronous.
-         */
+        beforeEach(function(done){
+            loadFeed(0, function(){
+                done();
+            });
+        });
+
+        it('is change the title', function(done){
+            expect($title.html()).toEqual(allFeeds[0].name);
+            loadFeed(1, function(){
+                expect($title.html()).toEqual(allFeeds[1].name);
+                done();
+            });
+        });
+
+        it('is change the content', function(done){
+            var fristItemContent = $container.children().eq(0).find('h2').html();
+            loadFeed(1, function(){
+                var newfristItemContent = $container.children().eq(0).find('h2').html();
+                expect(newfristItemContent).not.toEqual(fristItemContent);
+                done();
+            });
+        });
     });
 }());
